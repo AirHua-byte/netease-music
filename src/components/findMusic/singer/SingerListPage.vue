@@ -29,7 +29,7 @@
       </p>
     </el-header>
 
-    <el-main>
+    <el-main v-loading="loading">
       <el-row :gutter="10">
         <el-col 
           :span="4"
@@ -42,6 +42,7 @@
               :src='item.img1v1Url'
               @click="toSingerDetailPage(item.id)"
               style="box-shadow: 0 0 2px 2px gray;border-radius:10px;cursor:pointer;"
+              @load="overLoad"
             >
             </el-image>
           </div>
@@ -116,7 +117,8 @@ export default {
       ],
       singerList: [],
       prevClickArea: 'area-1',
-      prevClickType: 'type-1'
+      prevClickType: 'type-1',
+      loading: true
     }
   },
   created() {
@@ -147,6 +149,9 @@ export default {
     },
     toSingerDetailPage(id) {
       this.$router.push('/singer/' + id)
+    },
+    overLoad() {
+      this.loading = false
     }
   }
 }

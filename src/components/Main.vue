@@ -1,8 +1,8 @@
 <template>
   <el-container style="height:100%">
     <el-header>
-      <img src="imgs/logo.png" alt="" class="logo">
-      <span>网抑云</span>
+      <img src="imgs/logo.png" alt="" class="logo" @click="goHome" style="cursor:pointer">
+      <span @click="goHome" style="cursor:pointer">网抑云</span>
       <el-input placeholder="搜索单曲,歌手,视频,歌单" v-model="searchData" size="mini" suffix-icon="el-icon-search">
         <el-button slot="suffix" class="searchBtn" size="mini" @click="toSearchPage"></el-button>
       </el-input>
@@ -28,7 +28,7 @@
 
     <el-container>
       <el-aside width="210px">
-        <el-menu default-active="/findMusic" :router="true">
+        <el-menu :default-active="currentMenu" :router="true">
           <el-menu-item-group>
             <template slot="title">推荐</template>
             <el-menu-item index="/findMusic">发现音乐</el-menu-item>
@@ -237,7 +237,8 @@ export default {
       // 当前用户歌单
       currentUserPlayList:[],
       // 搜索条件
-      searchData: '六月的雨'
+      searchData: '六月的雨',
+      currentMenu: '/findMusic'
     }
   },
   watch:{
@@ -246,6 +247,7 @@ export default {
     }
   },
   created(){
+    this.getUrl()
     this.curId = window.localStorage.getItem('curPlayMusicId')
     this.$http.get('song/url',{params:{id:this.curId}}).then(res=>{
       this.musicUrl = res.data.data[0].url
@@ -258,6 +260,9 @@ export default {
     })
   },
   methods: {
+    goHome() {
+      this.$router.replace('/')
+    },
     toSearchPage(){
       if(this.searchData.trim()!==''){
         /* 
@@ -277,7 +282,8 @@ export default {
     setMusicUrl(mUrl,detail){
       this.musicUrl = mUrl
       this.music = detail
-      this.curId = detail.id
+      let id = detail.id
+      this.curId = id
       this.playListInfo.push(detail.id)
       this.setAudioTagsInfo(true)
     },
@@ -320,7 +326,7 @@ export default {
           this.music = res.data.songs[0]
         })
         this.curId = curId
-        this.setAudioTagsInfo()
+        this.setAudioTagsInfo(true)
       }
     },
     toMusicDetailPage(){
@@ -412,6 +418,15 @@ export default {
         window.localStorage.setItem('currentUserInfo',null)
         this.currentUserPlayList = []
       })
+    },
+    getUrl() {
+      let hashUrl = window.location.href.split('#')[1]
+      if(hashUrl.includes('ideo') || hashUrl.includes('mv'))
+      {
+        this.currentMenu = '/video'
+      }if(hashUrl === '/diyRecommend'){
+        this.currentMenu = '/findMusic'
+      }
     }
   },
   components:{

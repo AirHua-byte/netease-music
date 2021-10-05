@@ -17,6 +17,9 @@ import SingerDesc from '../components/findMusic/singer/SingerDesc'
 import NewMusic from '../components/findMusic/newMusic/NewMusic'
 import PlayMusicDetailPage from '../components/findMusic/PlayMusicPage/PlayMusicDetailPage'
 import Video from "../components/findMusic/video/Video"
+import VideoListTable from '../components/findMusic/video/VideoListTable'
+import VideoPlayPage from '../components/findMusic/video/VideoListPage'
+import MvListTable from '../components/findMusic/video/MvListTable'
 import SearchPage from "../components/findMusic/search/SearchPage"
 import SearchBySong from '../components/findMusic/search/SearchBySong'
 import SearchByVideo from '../components/findMusic/search/SearchByVideo'
@@ -78,7 +81,21 @@ const routes = [
       {
         path:'/video',
         component: Video,
-        
+        redirect: '/videoPage',
+        children: [
+          {
+            path: '/videoPage',
+            component: VideoListTable
+          },
+          {
+            path: '/mvPage',
+            component: MvListTable
+          }
+        ]
+      },
+      {
+        path: 'videoPlay/:id',
+        component: VideoPlayPage
       },
       // 搜索结果页面
       {

@@ -16,7 +16,7 @@
       </p>
     </el-header>
 
-    <el-main>
+    <el-main v-loading="loading">
       <el-row :gutter='10'>
         <el-col
           :span='4'
@@ -75,7 +75,8 @@ export default {
       hotMusicListTags: [],
       goodMusicList: [],
       goodMusicListTotal: 0,
-      prevClickCat: ''
+      prevClickCat: '',
+      loading: true
     }
   },
   created() {
@@ -92,6 +93,7 @@ export default {
       this.$http.get('/top/playlist',{params:this.queryInfo}).then(res=>{
         this.goodMusicList = res.data.playlists
         this.goodMusicListTotal = res.data.total
+        this.loading = false
       })
     },
     handleCurrentChange(newPage) {
@@ -125,7 +127,6 @@ h1{
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  
 }
 [class*=el-col-] {
   display: inline-block;

@@ -71,12 +71,12 @@
               <img :src="item.user.avatarUrl" alt="" style="display:inline;width:50px;height:50px;border-radius:25px;">
 
               <div style="margin-left:60px;margin-top:-60px;">
-                <p><span style="color: #4d99de;">{{item.user.nickname}}</span></p>
+                <p><span style="color: #4d99de;">{{item.user.nickname}}</span>：{{item.content}}</p>
                 <br v-if="item.beReplied.length > 0">
                 <div v-if="item.beReplied.length > 0"
                   style="background-color:rgb(241,241,244);padding:5px 5px;">
                   <p v-for="(citem,idx) in item.beReplied" :key="idx">
-                    <span style="color: #4d99de">{{citem.user.nickname}}</span>
+                    <span style="color: #4d99de">{{citem.user.nickname}}</span>：{{citem.content}}
                   </p>
                 </div>
 

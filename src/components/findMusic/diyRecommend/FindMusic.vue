@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header style="border-bottom:1px solid rgb(230,230,230)" height="150px;">
-      <el-menu default-active="/diyRecommend" :router="true" mode="horizontal" style="margin:0 auto;width:420px;">
+      <el-menu :default-active="currentMenu" :router="true" mode="horizontal" style="margin:0 auto;width:420px;">
         <el-menu-item index="/diyRecommend">个性推荐</el-menu-item>
         <el-menu-item index="/musicListPage">歌单</el-menu-item>
         <el-menu-item index="/musicRank">排行榜</el-menu-item>
@@ -20,12 +20,18 @@
 export default {
   data(){
     return {
-
+      currentMenu: '/diyRecommend'
     }
+  },
+  created() {
+    this.getUrl()
   },
   methods: {
     setParentMusicUrl(url,detail){
       this.$emit('setMusicUrl',url,detail)
+    },
+    getUrl() {
+      this.currentMenu = window.location.href.split('#')[1]
     }
   },
 }
